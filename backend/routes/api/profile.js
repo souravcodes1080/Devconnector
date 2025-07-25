@@ -157,7 +157,82 @@ router.delete("/", auth, async (req, res) => {
     await Profile.findOneAndDelete({ user: req.user.id });
     //remove user
     await User.findOneAndDelete({ _id: req.user.id });
-    res.json({msg:"User deleted."});
+    res.json({ msg: "User deleted." });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error.");
+  }
+});
+
+//@route   PUT api/profile/experience
+//@desc    Add profile experience
+//@access  Private
+//@algo    check title, company, from
+//         create new exp object
+//         save (unshift)
+router.put(
+  "/experience",
+  [
+    auth,
+    [
+      check("title", "Title is required.").not().isEmpty(),
+      check("company", "Company is required.").not().isEmpty(),
+      check("from", "From date is required.").not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      const { title, company, location, from, to, current, description } =
+        req.body;
+
+      const newExp = {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description,
+      };
+
+      const profile = await Profile.findOne({ user: req.user.id });
+
+      profile.experience.unshift(newExp);
+      await profile.save();
+
+      res.json(profile);
+
+      res.json({ msg: "User deleted." });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server error.");
+    }
+  }
+);
+
+//@route   DELETE api/profile/experience/:exp_id
+//@desc    Delete experience from profile array
+//@access  Private
+//@algo    find user profile
+//         get the index
+//         remove -> splice
+router.delete("/experience/:exp_id", auth, async (req, res) => {
+  
+  try {
+    const profile = await Profile.findOne({user : req.user.id})
+
+    //get remove index
+    const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id)
+
+    profile.experience.splice(removeIndex, 1)
+    await profile.save()
+    res.json(profile);
+
+    res.json({ msg: "User deleted." });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error.");
