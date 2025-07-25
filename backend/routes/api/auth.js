@@ -21,10 +21,9 @@ router.get("/", auth, async (req, res) => {
 });
 
 //@route   POST api/auth
-//@desc    Authenticate user & get token
-//@access  Private
+//@desc    Authenticate user & get token [Login]
+//@access  Public
 //@algo    see if user exists
-//         encrypt password
 //         return jsonwebtoken
 router.post(
   "/",
