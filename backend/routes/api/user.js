@@ -71,12 +71,10 @@ router.post(
         (err, token) => {
           if (err) {
             throw err;
-          } else {
+          } 
             res.json({ token });
-          }
         }
       );
-      res.send("User registered.");
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error.");
