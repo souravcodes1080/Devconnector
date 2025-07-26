@@ -8,11 +8,14 @@
   "main": "server",
   "scripts": {
     "start": "node server",
-    "server": "nodemon server"
+    "server": "nodemon server",
+    "client": "npm run dev --prefix ../client",
+    "dev": "concurrently \"npm run server\"  \"npm run client\""
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "config": "^4.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
