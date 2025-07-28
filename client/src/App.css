@@ -359,6 +359,9 @@ button {
   line-height: 1.8;
   margin-bottom: 1rem;
 }
+.textarea-bio {
+  resize: vertical; /* only allows height resize */
+}
 
 /* Profile Page */
 .profile-grid {

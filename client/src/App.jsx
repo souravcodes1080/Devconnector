@@ -1,17 +1,28 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Alert from "./components/layout/Alert";
+import Dashboard from "./components/dashboard/Dashboard";
+import PrivateRoute from "./components/routing/PrivateRoute";
 
 // Redux
 import { Provider, useSelector } from "react-redux";
 import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
+import CreateProfile from "./components/profile-form/CreateProfile";
+import EditProfile from "./components/profile-form/EditProfile";
+import AddExperience from "./components/profile-form/AddExperience";
+import AddEducation from "./components/profile-form/AddEducation";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -47,11 +58,29 @@ function App() {
         />
         <Route
           path="/login"
-          element={
-            isAuthenticated ? <Navigate to="/dashboard" /> : <Login />
-          }
+          element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
         />
-        {/* You can add dashboard route here too */}
+        <Route
+          path="/dashboard"
+          element={!isAuthenticated ? <Navigate to="/" /> : <Dashboard />}
+        />
+        <Route
+          path="/create-profile"
+          element={!isAuthenticated ? <Navigate to="/" /> : <CreateProfile />}
+        />
+        <Route
+          path="/edit-profile"
+          element={!isAuthenticated ? <Navigate to="/" /> : <EditProfile />}
+        />
+        <Route
+          path="/add-experience"
+          element={!isAuthenticated ? <Navigate to="/" /> : <AddExperience />}
+        />
+        <Route
+          path="/add-education"
+          element={!isAuthenticated ? <Navigate to="/" /> : <AddEducation />}
+        />
+       
       </Routes>
     </Router>
   );
