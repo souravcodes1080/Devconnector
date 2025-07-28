@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 
-function Navbar({ logout, auth: { isAuthenticated, loading } }) {
+function Navbar({ logout, auth: { user, isAuthenticated, loading } }) {
   const authLinks = (
-    <ul>
+    <ul style={{display:"flex", alignItems:"center"}}>
+      <li>
+        <Link to="/profiles">Developers</Link>
+      </li>
+      {/* <li>
+        <Link to="/dashboard">
+          <i className="fas fa-code"></i>
+          <span className="hide-sm">Dashboard</span>
+        </Link>
+      </li> */}
       <li>
         <Link to="/dashboard">
-          <i className="fas fa-code"></i><span className="hide-sm">Dashboard</span>
+          {user && (
+            <img
+              src={user.avatar}
+              style={{ width: "50px", borderRadius: "100px", height: "50px", backgroundColor:'white' }}
+            />
+          )}
         </Link>
       </li>
       <li>
@@ -21,7 +35,7 @@ function Navbar({ logout, auth: { isAuthenticated, loading } }) {
     </ul>
   );
   const guestLinks = (
-    <ul>
+    <ul style={{display:"flex", alignItems:"center"}}>
       <li>
         <Link to="/profiles">Developers</Link>
       </li>

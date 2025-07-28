@@ -2,7 +2,15 @@ import axios from "axios";
 import { setAlert } from "./alert";
 import { BASE_API_URL } from "../../API_CONFIG";
 
-import { ACCOUNT_DELETED, CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "./types";
+import {
+  ACCOUNT_DELETED,
+  CLEAR_PROFILE,
+  GET_PROFILE,
+  GET_PROFILES,
+  GET_REPOS,
+  PROFILE_ERROR,
+  UPDATE_PROFILE,
+} from "./types";
 
 //Get current user profile
 export const getCurrentProfile = () => async (dispatch) => {
@@ -10,6 +18,64 @@ export const getCurrentProfile = () => async (dispatch) => {
     const res = await axios.get(`${BASE_API_URL}/api/profile/me`);
     dispatch({
       type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+//Get profiles by user ID
+export const getProfileById = (userId) => async (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE });
+  try {
+    const res = await axios.get(`${BASE_API_URL}/api/profile/user/${userId}`);
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+//Get github repos
+export const getGithubRepos = (username) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${BASE_API_URL}/api/profile/github/${username}`);
+    dispatch({
+      type: GET_REPOS,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+//Get all profiles
+export const getAllProfiles = () => async (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE });
+  try {
+    const res = await axios.get(`${BASE_API_URL}/api/profile`);
+    dispatch({
+      type: GET_PROFILES,
       payload: res.data,
     });
   } catch (error) {
@@ -139,7 +205,9 @@ export const addEducation = (formData, navigate) => async (dispatch) => {
 //Delete Experience
 export const deleteExperience = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`${BASE_API_URL}/api/profile/experience/${id}`);
+    const res = await axios.delete(
+      `${BASE_API_URL}/api/profile/experience/${id}`
+    );
     dispatch({
       type: UPDATE_PROFILE,
       payload: res.data,
@@ -160,10 +228,13 @@ export const deleteExperience = (id) => async (dispatch) => {
     });
   }
 };
+
 //Delete Education
 export const deleteEducation = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`${BASE_API_URL}/api/profile/education/${id}`);
+    const res = await axios.delete(
+      `${BASE_API_URL}/api/profile/education/${id}`
+    );
     dispatch({
       type: UPDATE_PROFILE,
       payload: res.data,
@@ -193,14 +264,17 @@ export const deleteAccount = (navigate) => async (dispatch) => {
     )
   ) {
     try {
-      const res = await axios.delete(`${BASE_API_URL}/api/profile`);
+      await axios.delete(`${BASE_API_URL}/api/profile`);
       dispatch({
         type: CLEAR_PROFILE,
       });
       dispatch({
         type: ACCOUNT_DELETED,
       });
-      dispatch(setAlert("Your account has been permanently deleted.", "success"), navigate("/"));
+      dispatch(
+        setAlert("Your account has been permanently deleted.", "success"),
+        navigate("/")
+      );
     } catch (error) {
       const errors = error.response.data.errors;
       if (errors) {
