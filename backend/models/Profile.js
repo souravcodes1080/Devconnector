@@ -88,21 +88,27 @@ const profileSchema = new mongoose.Schema({
   social: {
     youtube: {
       type: String,
+      default: ""
     },
     twitter: {
       type: String,
+      default: ""
     },
     twitter: {
       type: String,
+      default: ""
     },
     facebook: {
       type: String,
+      default: ""
     },
     linkedIn: {
       type: String,
+      default: ""
     },
     instagram: {
       type: String,
+      default: ""
     },
   },
   date: {
