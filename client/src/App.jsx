@@ -27,6 +27,7 @@ import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
 import Post from "./components/post/Post";
+import NotFound from "./components/layout/NotFound";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -56,6 +57,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/profiles" element={<Profiles />} />
         <Route path="/profile/:id" element={<Profile />} />
+        <Route path="*" element={<NotFound />} />
         <Route
           path="/register"
           element={
