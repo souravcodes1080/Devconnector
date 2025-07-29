@@ -2,6 +2,7 @@ import React, { Children, useEffect } from "react";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import Github from "./Github";
+import { Link } from "react-router-dom";
 
 function ProfileTop({
   profile: {
@@ -165,9 +166,9 @@ function ProfileTop({
         )}
       </div>
 
-      {githubUsername && (
-        <Github githubUsername={githubUsername} />
-      )}
+      {githubUsername && <Github githubUsername={githubUsername} />}
+
+      
     </>
   );
 }

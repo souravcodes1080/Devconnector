@@ -9,6 +9,7 @@ import {
   GET_PROFILES,
   GET_REPOS,
   GET_USER,
+  GET_USER_POSTS,
   PROFILE_ERROR,
   UPDATE_PROFILE,
 } from "./types";
@@ -57,6 +58,25 @@ export const getUserById = (userId) => async (dispatch) => {
     const res = await axios.get(`${BASE_API_URL}/api/users/${userId}`);
     dispatch({
       type: GET_USER,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+//Get posts by user ID
+export const getPostsById = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${BASE_API_URL}/api/posts/user/${userId}`);
+    dispatch({
+      type: GET_USER_POSTS,
       payload: res.data,
     });
   } catch (error) {

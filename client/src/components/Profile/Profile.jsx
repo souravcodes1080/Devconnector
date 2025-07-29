@@ -2,9 +2,14 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getProfileById, getUserById } from "../../actions/profile";
+import {
+  getPostsById,
+  getProfileById,
+  getUserById,
+} from "../../actions/profile";
 import { Link, useParams } from "react-router-dom";
 import ProfileTop from "./ProfileTop";
+import PostItem from "../post/PostItem";
 
 function Profile({
   getProfileById,
@@ -12,12 +17,15 @@ function Profile({
   profile: { profile, loading, user },
   auth,
   getUserById,
+  getPostsById,
+  posts,
 }) {
   const { id } = useParams();
   useEffect(() => {
+    getPostsById(id);
     getProfileById(id);
     getUserById(id);
-  }, [getProfileById, getUserById, id]);
+  }, [getProfileById, getUserById, getPostsById, id]);
   return (
     <div>
       {profile === null ? (
@@ -42,7 +50,7 @@ function Profile({
             />
             <h1 className="large">{user?.name}</h1>
           </div>
-           <h4>No profile records.</h4>
+          <h4>No profile records.</h4>
         </div>
       ) : loading ? (
         <Spinner />
@@ -61,6 +69,20 @@ function Profile({
           <div className="profile-grid my-1">
             <ProfileTop profile={profile} />
           </div>
+          <div>
+            <h2 className="text-primary">Posts</h2>
+            <div>
+              {posts.length === 0 ? (
+                <h4>No posts available.</h4>
+              ) : (
+                posts.map((post) => (
+                  <Link to={`/posts/${post._id}`} >
+                  <PostItem post={post} showActions={false} />
+                  </Link>
+                ))
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -72,12 +94,16 @@ Profile.propTypes = {
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   getUserById: PropTypes.func.isRequired,
+  getPostsById: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   profile: state.profile,
   auth: state.auth,
+  posts: state.profile.posts,
 });
 
-export default connect(mapStateToProps, { getProfileById, getUserById })(
-  Profile
-);
+export default connect(mapStateToProps, {
+  getProfileById,
+  getUserById,
+  getPostsById,
+})(Profile);

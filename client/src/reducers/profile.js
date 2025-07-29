@@ -4,6 +4,7 @@ import {
   GET_PROFILES,
   GET_REPOS,
   GET_USER,
+  GET_USER_POSTS,
   PROFILE_ERROR,
   UPDATE_PROFILE,
 } from "../actions/types";
@@ -12,6 +13,7 @@ const initialState = {
   profile: null,
   profiles: [],
   repos: [],
+  posts:[],
   user: null,
   loading: true,
   error: {},
@@ -38,6 +40,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         user: payload,
+        loading: false,
+      };
+    case GET_USER_POSTS:
+      return {
+        ...state,
+        posts: payload,
         loading: false,
       };
     case GET_REPOS:

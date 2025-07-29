@@ -52,6 +52,25 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+//@route   GET api/posts/user/:user_id
+//@desc    Get posts by user id
+//@access  Private
+//@algo    fetch all posts from DB matching user ID
+router.get("/user/:user_id", auth, async (req, res) => {
+  try {
+    
+     const posts = await Post.find({ user: req.params.user_id }).sort({ createdAt: -1 })
+      if (!posts || posts.length === 0) {
+      return res.status(404).json({ msg: "Post not found." });
+    }
+
+    res.json(posts);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error.");
+  }
+});
+
 //@route   GET api/posts/:id
 //@desc    Get post by id
 //@access  Private
