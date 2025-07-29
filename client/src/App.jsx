@@ -13,18 +13,20 @@ import Login from "./components/auth/Login";
 import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./components/routing/PrivateRoute";
-
-// Redux
-import { Provider, useSelector } from "react-redux";
-import store from "./store";
-import setAuthToken from "./utils/setAuthToken";
-import { loadUser } from "./actions/auth";
 import CreateProfile from "./components/profile-form/CreateProfile";
 import EditProfile from "./components/profile-form/EditProfile";
 import AddExperience from "./components/profile-form/AddExperience";
 import AddEducation from "./components/profile-form/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/Profile/Profile";
+import Posts from "./components/post/Posts";
+
+// Redux
+import { Provider, useSelector } from "react-redux";
+import store from "./store";
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth";
+import Post from "./components/post/Post";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -83,6 +85,14 @@ function App() {
         <Route
           path="/add-education"
           element={!isAuthenticated ? <Navigate to="/" /> : <AddEducation />}
+        />
+        <Route
+          path="/posts"
+          element={!isAuthenticated ? <Navigate to="/" /> : <Posts />}
+        />
+        <Route
+          path="/posts/:id"
+          element={!isAuthenticated ? <Navigate to="/" /> : <Post />}
         />
       </Routes>
     </Router>

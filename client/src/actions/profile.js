@@ -8,6 +8,7 @@ import {
   GET_PROFILE,
   GET_PROFILES,
   GET_REPOS,
+  GET_USER,
   PROFILE_ERROR,
   UPDATE_PROFILE,
 } from "./types";
@@ -38,6 +39,24 @@ export const getProfileById = (userId) => async (dispatch) => {
     const res = await axios.get(`${BASE_API_URL}/api/profile/user/${userId}`);
     dispatch({
       type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+//Get user by user ID
+export const getUserById = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${BASE_API_URL}/api/users/${userId}`);
+    dispatch({
+      type: GET_USER,
       payload: res.data,
     });
   } catch (error) {
@@ -88,6 +107,7 @@ export const getAllProfiles = () => async (dispatch) => {
     });
   }
 };
+
 
 //Create/Update profile
 export const createProfile =
@@ -264,7 +284,7 @@ export const deleteAccount = (navigate) => async (dispatch) => {
     )
   ) {
     try {
-      await axios.delete(`${BASE_API_URL}/api/profile`);
+      const res = await axios.delete(`${BASE_API_URL}/api/profile`);
       dispatch({
         type: CLEAR_PROFILE,
       });

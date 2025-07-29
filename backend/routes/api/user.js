@@ -82,4 +82,23 @@ router.post(
   }
 );
 
+//@route   GET api/users/:id
+//@desc    Get user by user ID
+//@access  Public
+//@algo    fetch user details using params
+//         return if found
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(  req.params.id ).select('-password');
+    if (user) {
+      res.json(user);
+    }
+  } catch (error) {
+    console.error(error.message);
+    if (error.kind == "ObjectId") {
+      return res.status(400).json({ msg: "User profile doesnot exists." });
+    }
+    res.status(500).send("Server error.");
+  }
+});
 module.exports = router;

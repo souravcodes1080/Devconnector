@@ -155,7 +155,7 @@ router.get("/user/:user_id", async (req, res) => {
 router.delete("/", auth, async (req, res) => {
   try {
     //remove user post
-    await Post.deleteMany({user:req.user.id})
+    await Post.deleteMany({ user: req.user.id });
 
     //remove profile
     await Profile.findOneAndDelete({ user: req.user.id });
@@ -337,7 +337,6 @@ router.get("/github/:username", async (req, res) => {
       }
       res.json(JSON.parse(body));
     });
-
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error.");
