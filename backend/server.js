@@ -7,7 +7,8 @@ const app = express();
 //connect DB
 connectDB();
 app.use(cors({
-  origin: "https://devconnector-p35p.onrender.com",
+  // origin: "https://devconnector-p35p.onrender.com",
+  origin: "*",
   credentials: true,
 }));
 //Init middleware

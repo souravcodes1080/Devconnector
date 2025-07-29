@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getPosts } from "../../actions/post";
@@ -10,7 +10,21 @@ function Posts({ getPosts, post: { posts, loading } }) {
   useEffect(() => {
     getPosts();
   }, []);
-  
+  const [search, setSearch] = useState("");
+  const [filteredSearch, setFilteredSearch] = useState([]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFilteredSearch(posts);
+      const filteredPost = posts.filter((post) =>
+        post.text?.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredSearch(filteredPost);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [search, posts]);
+  const searchUser = (e) => {
+    setSearch(e.target.value);
+  };
 
   return loading ? (
     <Spinner />
@@ -22,10 +36,25 @@ function Posts({ getPosts, post: { posts, loading } }) {
           <i className="fas fa-user"></i> Welcome to the comminity
         </p>
         <PostForm />
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Search through posts"
+            name="search"
+            value={search}
+            onChange={(e) => searchUser(e)}
+            className="my-1 p-1"
+            style={{ width: "100%", fontSize: "16px" }}
+          />
+        </div>
         <div className="posts">
-          {[...posts].reverse().map((post) => (
-            <PostItem key={post._id} post={post} />
-          ))}
+          {filteredSearch.length > 0 ? (
+            filteredSearch
+              .reverse()
+              .map((post) => <PostItem key={post._id} post={post} />)
+          ) : (
+            <h4>No Post Found.</h4>
+          )}
         </div>
       </div>
     </>
