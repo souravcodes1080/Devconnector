@@ -343,4 +343,33 @@ router.get("/github/:username", async (req, res) => {
   }
 });
 
+
+//@route   PUT api/profile/follow/:id
+//@desc    follow a user
+//@access  Private
+//@algo    filter if already following
+//         follow(unshift)
+//         req.params.id -> the follower's acc
+//         req.user.id -> the user's acc by which the follow req will be sent to thr rqe.params.id's acc 
+//         req.user.id -> we are getting this from jwt token middleware
+router.put("/follow/:id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({user: req.user.id}); 
+    //check if already following
+    if (
+      profile.followers?.filter((follower) => follower.user.toString() === req.params.id).length >
+      0
+    ) {
+      return res.status(400).json({ msg: "Already following." });
+    }
+    profile.followers.unshift({ user: req.params.id });
+    await profile.save();
+
+    res.json(profile.followers);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error.");
+  }
+});
+
 module.exports = router;

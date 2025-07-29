@@ -1,5 +1,6 @@
 import {
   CLEAR_PROFILE,
+  FOLLOW_USER,
   GET_PROFILE,
   GET_PROFILES,
   GET_REPOS,
@@ -13,8 +14,9 @@ const initialState = {
   profile: null,
   profiles: [],
   repos: [],
-  posts:[],
+  posts: [],
   user: null,
+  followers: [],
   loading: true,
   error: {},
 };
@@ -28,6 +30,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         profile: payload,
+        loading: false,
+      };
+    case FOLLOW_USER:
+      return {
+        ...state,
+        followers: payload,
         loading: false,
       };
     case GET_PROFILES:

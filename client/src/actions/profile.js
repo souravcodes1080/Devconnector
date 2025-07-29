@@ -5,6 +5,7 @@ import { BASE_API_URL } from "../../API_CONFIG";
 import {
   ACCOUNT_DELETED,
   CLEAR_PROFILE,
+  FOLLOW_USER,
   GET_PROFILE,
   GET_PROFILES,
   GET_REPOS,
@@ -241,6 +242,31 @@ export const addEducation = (formData, navigate) => async (dispatch) => {
     });
   }
 };
+
+//Add Follower
+export const addFollower = (id) => async dispatch => {
+  try {
+    const res = await axios.put(`${BASE_API_URL}/api/profile/follow/${id}`)
+
+    dispatch({
+      type: FOLLOW_USER,
+      payload: {followers: res.data}
+    })
+  } catch (error) {
+     const errors = error.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+}
 
 //Delete Experience
 export const deleteExperience = (id) => async (dispatch) => {

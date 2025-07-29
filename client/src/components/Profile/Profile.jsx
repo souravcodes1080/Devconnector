@@ -10,11 +10,12 @@ import {
 import { Link, useParams } from "react-router-dom";
 import ProfileTop from "./ProfileTop";
 import PostItem from "../post/PostItem";
+import FollowersItem from "./FollowersItem";
 
 function Profile({
   getProfileById,
   match,
-  profile: { profile, loading, user },
+  profile: { profile, loading, user, followers },
   auth,
   getUserById,
   getPostsById,
@@ -69,15 +70,43 @@ function Profile({
           <div className="profile-grid my-1">
             <ProfileTop profile={profile} />
           </div>
+          {profile.followers.length > 0 ? (
+            <>
+              <h2 className="text-primary">
+                Following ({profile.followers.length})
+              </h2>
+              <div style={{
+    display: "flex",
+    gap: "20px",
+    overflowX: "auto",
+    overflowY: "hidden",
+    paddingBottom: "10px",
+  }}
+  onWheel={(e) => {
+    e.currentTarget.scrollLeft += e.deltaY;
+  }}>
+                <div className="my-1" style={{ display: "flex", gap: "20px" }}>
+                  {profile.followers?.map((follower) => (
+                    <>
+                      <FollowersItem follower={follower} key={follower._id} />
+                    </>
+                  ))}
+                </div>
+              </div>{" "}
+            </>
+          ) : (
+            <></>
+          )}
+
           <div>
-            <h2 className="text-primary">Posts</h2>
+            <h2 className="text-primary">Posts ({posts.length})</h2>
             <div>
               {posts.length === 0 ? (
                 <h4>No posts available.</h4>
               ) : (
                 posts.map((post) => (
-                  <Link to={`/posts/${post._id}`} >
-                  <PostItem post={post} showActions={false} />
+                  <Link to={`/posts/${post._id}`}>
+                    <PostItem post={post} showActions={false} />
                   </Link>
                 ))
               )}

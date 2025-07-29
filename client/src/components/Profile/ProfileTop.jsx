@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import Github from "./Github";
 import { Link } from "react-router-dom";
+import FollowersItem from "./FollowersItem";
 
 function ProfileTop({
   profile: {

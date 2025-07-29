@@ -88,33 +88,41 @@ const profileSchema = new mongoose.Schema({
   social: {
     youtube: {
       type: String,
-      default: ""
+      default: "",
     },
     twitter: {
       type: String,
-      default: ""
+      default: "",
     },
     twitter: {
       type: String,
-      default: ""
+      default: "",
     },
     facebook: {
       type: String,
-      default: ""
+      default: "",
     },
     linkedIn: {
       type: String,
-      default: ""
+      default: "",
     },
     instagram: {
       type: String,
-      default: ""
+      default: "",
     },
   },
   date: {
     type: Date,
     default: Date.now,
   },
+  followers: [
+    {
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+      },
+    },
+  ],
 });
 
 const Profile = mongoose.model("Profile", profileSchema);
