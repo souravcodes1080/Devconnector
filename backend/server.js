@@ -7,7 +7,7 @@ const app = express();
 //connect DB
 connectDB();
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://devconnector-p35p.onrender.com",
   credentials: true,
 }));
 //Init middleware
