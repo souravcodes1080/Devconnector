@@ -18,10 +18,13 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+    avatarPublicId: {
+      type: String, // for deleting the old image from Cloudinary
+    },
   },
   { timestamps: true }
 );
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model("User", userSchema);
 
-module.exports = User
+module.exports = User;

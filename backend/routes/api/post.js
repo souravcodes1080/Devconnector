@@ -3,10 +3,11 @@ const { check, validationResult } = require("express-validator");
 const fs = require("fs");
 const path = require("path");
 const auth = require("../../middleware/auth");
+const cloudinary = require("../../config/cloudinary")
 const User = require("../../models/User");
 const Post = require("../../models/Post");
-const uploadPostImage = require("../../middleware/postUpload");
 const Profile = require("../../models/Profile");
+const { uploadPost } = require("../../middleware/upload");
 const router = express.Router();
 
 //@route   POST api/posts
@@ -19,7 +20,14 @@ router.post(
   "/",
   [
     auth,
-    uploadPostImage.array("images", 5),
+    (req, res, next) => {
+    uploadPost.array("images", 5)(req, res, function (err) {
+      if (err) {
+        return res.status(400).json({ error: err.message });
+      }
+      next();
+    });
+  },
     [check("text", "Title is required").not().isEmpty()],
   ],
   async (req, res) => {
@@ -30,11 +38,8 @@ router.post(
 
     try {
       const user = await User.findById(req.user.id).select("-password");
-      const imageUrls = req.files.map((file) => {
-        return `${req.protocol}://${req.get("host")}/uploads/posts/${
-          file.filename
-        }`;
-      });
+      const imageUrls = req.files.map((file) => file.path
+      );
       const newPost = new Post({
         text: req.body.text,
         name: user.name,
@@ -125,23 +130,17 @@ router.delete("/:id", auth, async (req, res) => {
         .json({ msg: "User not authorized to delete this post." });
     }
     if (post.images && post.images.length > 0) {
-      post.images.forEach((url) => {
-        const filename = url.split("/uploads/posts")[1];
-        const filePath = path.join(
-          __dirname,
-          "..",
-          "..",
-          "uploads",
-          "posts",
-          filename
-        );
+      for (const imageUrl of post.images) {
+        const parts = imageUrl.split("/");
+        const fileWithExtension = parts[parts.length - 1]; // e.g., "userId-timestamp-random.png"
+        const publicId = `posts/${fileWithExtension.split(".")[0]}`; // remove extension
 
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            console.err("Failed to delete image ", filename, " ", err.message);
-          }
-        });
-      });
+        try {
+          await cloudinary.uploader.destroy(publicId);
+        } catch (err) {
+          console.error(`❌ Error deleting image ${publicId}:`, err.message);
+        }
+      }
     }
     await post.deleteOne();
     res.json({ msg: "Post deleted" });

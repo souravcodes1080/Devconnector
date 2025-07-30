@@ -1,34 +1,40 @@
 const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../config/cloudinary");
 
-// Storage engine
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const dir = "./uploads/avatars";
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    cb(null, dir);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, `${req.user.id}-${uniqueSuffix}${path.extname(file.originalname)}`);
+// Avatar Upload (1 image)
+const avatarStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "avatars",
+    allowed_formats: ["jpg", "jpeg", "png", "gif"],
+    transformation: [{ width: 300, height: 300, crop: "thumb", gravity: "face" }],
+    public_id: (req, file) => `${req.user.id}-avatar`,
   },
 });
 
-const fileFilter = function (req, file, cb) {
-  const allowedTypes = /jpeg|jpg|png|gif/;
-  const isValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  if (isValid) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only image files are allowed."));
-  }
+const uploadAvatar = multer({
+  storage: avatarStorage,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+});
+
+// Post Image Upload (multiple)
+const postStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "posts",
+    allowed_formats: ["jpg", "jpeg", "png", "gif"],
+    public_id: (req, file) =>
+      `${req.user.id}-${Date.now()}-${Math.round(Math.random() * 1e9)}`,
+  },
+});
+
+const uploadPost = multer({
+  storage: postStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+});
+
+module.exports = {
+  uploadAvatar,
+  uploadPost,
 };
-
-module.exports = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
-});

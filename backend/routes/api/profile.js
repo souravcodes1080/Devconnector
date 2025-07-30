@@ -2,12 +2,12 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
-
+// const cloudinary = require("../../config/cloudinary")
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const { uploadAvatar } = require("../../middleware/upload");
 const Post = require("../../models/Post");
-const upload = require("../../middleware/upload");
 const { check, validationResult } = require("express-validator");
 const request = require("request");
 const router = express.Router();
@@ -43,14 +43,21 @@ router.get("/me", auth, async (req, res) => {
 //         return profile
 router.post(
   "/",
+  auth,
+  (req, res, next) => {
+    uploadAvatar.single("avatar")(req, res, function (err) {
+      if (err) {
+        return res.status(400).json({ error: err.message });
+      }
+      next();
+    });
+  },
+
   [
-    auth,
-    upload.single("avatar"),
-    [
-      check("status", "Status is required.").not().isEmpty(),
-      check("skills", "Skills is required.").not().isEmpty(),
-    ],
+    check("status", "Status is required.").not().isEmpty(),
+    check("skills", "Skills is required.").not().isEmpty(),
   ],
+
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -99,52 +106,19 @@ router.post(
 
       //Add avatar url if uploaded
       if (req.file) {
-        const avatarPath = req.file.path;
-
-        // Resize and overwrite uploaded file to 512x512 square
-        const tempOutput = `${avatarPath}-square.jpg`;
-        await sharp(avatarPath)
-          .resize(512, 512, {
-            fit: "cover", // crops from center to make square
-          })
-          .toFile(tempOutput);
-
-        // Delete original uploaded file
-        fs.unlinkSync(avatarPath);
-
-        // Rename resized file back to original filename
-        fs.renameSync(tempOutput, avatarPath);
-
-        const newAvatar = `${req.protocol}://${req.get(
-          "host"
-        )}/uploads/avatars/${req.file.filename}`;
-
+        const avatarPath = req.file.path; // this is Cloudinary's secure_url
+        const publicId = req.file.filename; // Cloudinary gives this back
         if (user) {
-          const oldAvatar = user.avatar;
-          const uploadsUrlPrefix = `${req.protocol}://${req.get(
-            "host"
-          )}/uploads/avatars/`;
-
-          // Delete old avatar if it's local
-          if (oldAvatar && oldAvatar.startsWith(uploadsUrlPrefix)) {
-            const filenameToDelete = oldAvatar.replace(uploadsUrlPrefix, "");
-            const oldFilePath = path.join(
-              __dirname,
-              "..",
-              "..",
-              "uploads",
-              "avatars",
-              filenameToDelete
-            );
-
-            fs.unlink(oldFilePath, (err) => {
-              if (err) {
-                console.error("Failed to delete old avatar:", err.message);
-              }
-            });
+          if (user.avatarPublicId) {
+            try {
+              await cloudinary.uploader.destroy(user.avatarPublicId);
+            } catch (err) {
+              console.error("Error deleting old avatar from Cloudinary");
+            }
           }
-
-          user.avatar = newAvatar;
+          // Save new one
+          user.avatar = avatarPath;
+          user.avatarPublicId = publicId; // this is the `public_id`
           await user.save();
         }
       }
@@ -156,7 +130,7 @@ router.post(
           { $set: profileFields },
           { new: true }
         );
-        return res.json({ profile , user});
+        return res.json({ profile, user });
       }
 
       //create
@@ -164,7 +138,12 @@ router.post(
       await profile.save();
       return res.json({ profile, user });
     } catch (error) {
-      console.error(error.message);
+      console.error("Server Error:", error);
+      return res.status(500).json({
+        error: "Server error occurred",
+        message: error.message,
+        stack: error.stack, // helpful for debugging
+      });
     }
   }
 );
