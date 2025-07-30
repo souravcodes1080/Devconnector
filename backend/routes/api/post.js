@@ -1,8 +1,11 @@
 const express = require("express");
 const { check, validationResult } = require("express-validator");
+const fs = require("fs");
+const path = require("path");
 const auth = require("../../middleware/auth");
 const User = require("../../models/User");
 const Post = require("../../models/Post");
+const uploadPostImage = require("../../middleware/postUpload");
 const Profile = require("../../models/Profile");
 const router = express.Router();
 
@@ -14,7 +17,11 @@ const router = express.Router();
 //         save
 router.post(
   "/",
-  [auth, [check("text", "Title is required").not().isEmpty()]],
+  [
+    auth,
+    uploadPostImage.array("images", 5),
+    [check("text", "Title is required").not().isEmpty()],
+  ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -23,11 +30,17 @@ router.post(
 
     try {
       const user = await User.findById(req.user.id).select("-password");
+      const imageUrls = req.files.map((file) => {
+        return `${req.protocol}://${req.get("host")}/uploads/posts/${
+          file.filename
+        }`;
+      });
       const newPost = new Post({
         text: req.body.text,
         name: user.name,
         user: req.user.id,
         avatar: user.avatar,
+        images: imageUrls,
       });
       const post = await newPost.save();
       res.json(post);
@@ -58,9 +71,10 @@ router.get("/", auth, async (req, res) => {
 //@algo    fetch all posts from DB matching user ID
 router.get("/user/:user_id", auth, async (req, res) => {
   try {
-    
-     const posts = await Post.find({ user: req.params.user_id }).sort({ createdAt: -1 })
-      if (!posts || posts.length === 0) {
+    const posts = await Post.find({ user: req.params.user_id }).sort({
+      createdAt: -1,
+    });
+    if (!posts || posts.length === 0) {
       return res.status(404).json({ msg: "Post not found." });
     }
 
@@ -109,6 +123,25 @@ router.delete("/:id", auth, async (req, res) => {
       return res
         .status(401)
         .json({ msg: "User not authorized to delete this post." });
+    }
+    if (post.images && post.images.length > 0) {
+      post.images.forEach((url) => {
+        const filename = url.split("/uploads/posts")[1];
+        const filePath = path.join(
+          __dirname,
+          "..",
+          "..",
+          "uploads",
+          "posts",
+          filename
+        );
+
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.err("Failed to delete image ", filename, " ", err.message);
+          }
+        });
+      });
     }
     await post.deleteOne();
     res.json({ msg: "Post deleted" });
@@ -252,6 +285,5 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
     res.status(500).send("Server error.");
   }
 });
-
 
 module.exports = router;
