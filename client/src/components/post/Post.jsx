@@ -22,7 +22,7 @@ function Post({
     <Spinner />
   ) : (
     <>
-      <div className="container">
+      <div className="">
         <section className="container">
           <Link to="/posts" className="btn">
             Back To Posts

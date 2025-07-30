@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import dayjs from "dayjs";
 import { addLike, deletePost, removeLike } from "../../actions/post";
 function PostItem({
-  post: { _id, text, name, user, likes, comments, date, avatar },
+  post: { _id, text, name, user, likes, comments, date, avatar, images },
   auth,
   addLike,
   removeLike,
@@ -24,6 +24,11 @@ function PostItem({
         </div>
         <div>
           <p className="my-1">{text}</p>
+          {images.length > 0 ? <>
+            {images.map((image)=> (
+              <img src={image} style={{margin:"5px", width:"200px", height:"200px", objectFit:"cover"}} />
+            ))}
+          </> : <></>}
           <p className="post-date">
             Posted on {dayjs(date).format("DD/MM/YYYY")}
           </p>
@@ -75,8 +80,8 @@ function PostItem({
   );
 }
 PostItem.defaultProps = {
-  showActions : true
-}
+  showActions: true,
+};
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
