@@ -4,6 +4,8 @@ const User = require("../../models/User");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const  generateAvatar  = require("../../utils/generateAvatarUrl");
+const colors  = require("../../utils/Colors");
 
 const router = express.Router();
 
@@ -40,11 +42,7 @@ router.post(
           .json({ errors: [{ msg: "User already exists." }] });
       }
 
-      const avatar = gravatar.url(email, {
-        s: "512",
-        r: "pg",
-        d: "robohash",
-      });
+      const avatar = generateAvatar(name, colors)
 
       user = new User({
         name,
