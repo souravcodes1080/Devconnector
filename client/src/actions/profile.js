@@ -13,6 +13,7 @@ import {
   GET_USER_POSTS,
   PROFILE_ERROR,
   UPDATE_PROFILE,
+  USER_LOADED,
 } from "./types";
 
 //Get current user profile
@@ -137,7 +138,7 @@ export const createProfile =
     try {
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       };
 
@@ -148,11 +149,11 @@ export const createProfile =
       );
       dispatch({
         type: GET_PROFILE,
-        payload: res.data,
+        payload: res.data.profile,
       });
+        dispatch({ type: USER_LOADED, payload: res.data.user });
       dispatch(
         setAlert(edit ? "Profile Updated" : "Profile Created", "primary"),
-        navigate("/dashboard")
       );
       if (!edit) {
         navigate("/dashboard");

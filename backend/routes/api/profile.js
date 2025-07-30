@@ -156,13 +156,13 @@ router.post(
           { $set: profileFields },
           { new: true }
         );
-        return res.json({ profile });
+        return res.json({ profile , user});
       }
 
       //create
       profile = new Profile(profileFields);
       await profile.save();
-      return res.json({ profile });
+      return res.json({ profile, user });
     } catch (error) {
       console.error(error.message);
     }

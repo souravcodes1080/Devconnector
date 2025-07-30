@@ -35,13 +35,29 @@ const EditProfile = ({
       location: loading || !profile.location ? "" : profile.location,
       status: loading || !profile.status ? "" : profile.status,
       skills: loading || !profile.skills ? "" : profile.skills.join(", "),
-      githubUsername: loading || !profile.githubUsername ? "" : profile.githubUsername,
+      githubUsername:
+        loading || !profile.githubUsername ? "" : profile.githubUsername,
       bio: loading || !profile.bio ? "" : profile.bio,
-      twitter: loading || !profile.twitter || profile.social.twitter ?  profile.social.twitter :"",
-      facebook: loading || !profile.facebook || profile.social.facebook ?  profile.social.facebook : "",
-      linkedIn: loading || !profile.linkedIn || profile.social.linkedIn ?  profile.social.linkedIn : "",
-      youtube: loading || !profile.youtube || profile.social.youtube ? profile.social.youtube : "" ,
-      instagram: loading || !profile.instagram || profile.social.instagram ?profile.social.instagram : "",
+      twitter:
+        loading || !profile.twitter || profile.social.twitter
+          ? profile.social.twitter
+          : "",
+      facebook:
+        loading || !profile.facebook || profile.social.facebook
+          ? profile.social.facebook
+          : "",
+      linkedIn:
+        loading || !profile.linkedIn || profile.social.linkedIn
+          ? profile.social.linkedIn
+          : "",
+      youtube:
+        loading || !profile.youtube || profile.social.youtube
+          ? profile.social.youtube
+          : "",
+      instagram:
+        loading || !profile.instagram || profile.social.instagram
+          ? profile.social.instagram
+          : "",
     });
   }, [loading, getCurrentProfile]);
   const {
@@ -58,23 +74,80 @@ const EditProfile = ({
     youtube,
     instagram,
   } = formData;
+  const [avatar, setAvatar] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, navigate, true);
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+    });
+    if (avatar) {
+      data.append("avatar", avatar);
+      for (let pair of data.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+      }
+    }
+    createProfile(data, navigate, true);
   };
   return (
     <div>
       <section className="container">
-        <h1 className="large text-primary">Create Your Profile</h1>
+        <h1 className="large text-primary">Edit Your Profile</h1>
         <p className="lead">
           <i className="fas fa-user"></i> Let's get some information to make
           your profile stand out
         </p>
         <small>* = required field</small>
         <form className="form" onSubmit={(e) => onSubmit(e)}>
+          <div className="form-group">
+            <input
+              type="file"
+              name="avatar"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+
+                // Check file size (in bytes): 2MB = 2 * 1024 * 1024
+                const maxSize = 2 * 1024 * 1024;
+
+                if (file && file.size > maxSize) {
+                  alert("File size should be less than 2MB.");
+                  e.target.value = ""; // Reset the file input
+                  setAvatar(null);
+                  setAvatarPreview(null);
+                  return;
+                }
+
+                setAvatar(file);
+                setAvatarPreview(URL.createObjectURL(file));
+              }}
+            />
+
+            <small className="form-text">
+              Upload a profile picture (max 2MB)
+            </small>
+          </div>
+
+          {avatarPreview && (
+            <div style={{ marginBottom: "15px" }}>
+              <img
+                src={avatarPreview}
+                alt="Avatar Preview"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "100px",
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+          )}
+
           <div className="form-group">
             <select value={status} onChange={(e) => onChange(e)} name="status">
               <option value="0">* Select Professional Status</option>

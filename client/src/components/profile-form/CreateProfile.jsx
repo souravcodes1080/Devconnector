@@ -35,12 +35,25 @@ const CreateProfile = ({createProfile, history}) => {
     youtube,
     instagram,
   } = formData;
+  const [avatar, setAvatar] = useState(null);
+    const [avatarPreview, setAvatarPreview] = useState(null);
+  
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const onSubmit = e =>{
-    e.preventDefault()
-    createProfile(formData, navigate)
+  e.preventDefault();
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+    });
+    if (avatar) {
+      data.append("avatar", avatar);
+      for (let pair of data.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+      }
+    }
+    createProfile(data, navigate, true);
   }
   return (
     <div>
@@ -51,7 +64,49 @@ const CreateProfile = ({createProfile, history}) => {
           your profile stand out
         </p>
         <small>* = required field</small>
-        <form className="form" onSubmit={(e)=>onSubmit(e)}>
+        <form className="form" onSubmit={(e)=>onSubmit(e)}><div className="form-group">
+            <input
+              type="file"
+              name="avatar"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+
+                // Check file size (in bytes): 2MB = 2 * 1024 * 1024
+                const maxSize = 2 * 1024 * 1024;
+
+                if (file && file.size > maxSize) {
+                  alert("File size should be less than 2MB.");
+                  e.target.value = ""; // Reset the file input
+                  setAvatar(null);
+                  setAvatarPreview(null);
+                  return;
+                }
+
+                setAvatar(file);
+                setAvatarPreview(URL.createObjectURL(file));
+              }}
+            />
+
+            <small className="form-text">
+              Upload a profile picture (max 2MB)
+            </small>
+          </div>
+
+          {avatarPreview && (
+            <div style={{ marginBottom: "15px" }}>
+              <img
+                src={avatarPreview}
+                alt="Avatar Preview"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "100px",
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+          )}
           <div className="form-group">
             <select value={status} onChange={(e) => onChange(e)} name="status">
               <option value="0">* Select Professional Status</option>

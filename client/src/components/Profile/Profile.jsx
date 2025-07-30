@@ -63,7 +63,7 @@ function Profile({
           {auth.isAuthenticated &&
             auth.loading === false &&
             auth.user._id === profile.user._id && (
-              <Link to="/edit-profile" className="btn btn-dark">
+              <Link to={`/edit-profile/`} className="btn btn-dark">
                 Edit Profile
               </Link>
             )}
@@ -75,16 +75,18 @@ function Profile({
               <h2 className="text-primary">
                 Following ({profile.followers.length})
               </h2>
-              <div style={{
-    display: "flex",
-    gap: "20px",
-    overflowX: "auto",
-    overflowY: "hidden",
-    paddingBottom: "10px",
-  }}
-  onWheel={(e) => {
-    e.currentTarget.scrollLeft += e.deltaY;
-  }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "20px",
+                  overflowX: "auto",
+                  overflowY: "hidden",
+                  paddingBottom: "10px",
+                }}
+                onWheel={(e) => {
+                  e.currentTarget.scrollLeft += e.deltaY;
+                }}
+              >
                 <div className="my-1" style={{ display: "flex", gap: "20px" }}>
                   {profile.followers?.map((follower) => (
                     <>
