@@ -1,8 +1,13 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const sharp = require("sharp");
+
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 const Post = require("../../models/Post");
+const upload = require("../../middleware/upload");
 const { check, validationResult } = require("express-validator");
 const request = require("request");
 const router = express.Router();
@@ -40,6 +45,7 @@ router.post(
   "/",
   [
     auth,
+    upload.single("avatar"),
     [
       check("status", "Status is required.").not().isEmpty(),
       check("skills", "Skills is required.").not().isEmpty(),
@@ -88,6 +94,60 @@ router.post(
       if (instagram) profileFields.social.instagram = instagram;
 
       let profile = await Profile.findOne({ user: req.user.id });
+
+      let user = await User.findOne({ _id: req.user.id });
+
+      //Add avatar url if uploaded
+      if (req.file) {
+        const avatarPath = req.file.path;
+
+        // Resize and overwrite uploaded file to 512x512 square
+        const tempOutput = `${avatarPath}-square.jpg`;
+        await sharp(avatarPath)
+          .resize(512, 512, {
+            fit: "cover", // crops from center to make square
+          })
+          .toFile(tempOutput);
+
+        // Delete original uploaded file
+        fs.unlinkSync(avatarPath);
+
+        // Rename resized file back to original filename
+        fs.renameSync(tempOutput, avatarPath);
+
+        const newAvatar = `${req.protocol}://${req.get(
+          "host"
+        )}/uploads/avatars/${req.file.filename}`;
+
+        if (user) {
+          const oldAvatar = user.avatar;
+          const uploadsUrlPrefix = `${req.protocol}://${req.get(
+            "host"
+          )}/uploads/avatars/`;
+
+          // Delete old avatar if it's local
+          if (oldAvatar && oldAvatar.startsWith(uploadsUrlPrefix)) {
+            const filenameToDelete = oldAvatar.replace(uploadsUrlPrefix, "");
+            const oldFilePath = path.join(
+              __dirname,
+              "..",
+              "..",
+              "uploads",
+              "avatars",
+              filenameToDelete
+            );
+
+            fs.unlink(oldFilePath, (err) => {
+              if (err) {
+                console.error("Failed to delete old avatar:", err.message);
+              }
+            });
+          }
+
+          user.avatar = newAvatar;
+          await user.save();
+        }
+      }
 
       if (profile) {
         //update
@@ -209,8 +269,6 @@ router.put(
       await profile.save();
 
       res.json(profile);
-
-      res.json({ msg: "New experience added." });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error.");
@@ -343,22 +401,22 @@ router.get("/github/:username", async (req, res) => {
   }
 });
 
-
 //@route   PUT api/profile/follow/:id
 //@desc    follow a user
 //@access  Private
 //@algo    filter if already following
 //         follow(unshift)
 //         req.params.id -> the follower's acc
-//         req.user.id -> the user's acc by which the follow req will be sent to thr rqe.params.id's acc 
+//         req.user.id -> the user's acc by which the follow req will be sent to thr rqe.params.id's acc
 //         req.user.id -> we are getting this from jwt token middleware
 router.put("/follow/:id", auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({user: req.user.id}); 
+    const profile = await Profile.findOne({ user: req.user.id });
     //check if already following
     if (
-      profile.followers?.filter((follower) => follower.user.toString() === req.params.id).length >
-      0
+      profile.followers?.filter(
+        (follower) => follower.user.toString() === req.params.id
+      ).length > 0
     ) {
       return res.status(400).json({ msg: "Already following." });
     }
