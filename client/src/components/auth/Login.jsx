@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
+import LandingPageNavbar from "../layout/LandingPage/LandingPageNavbar";
+import Footer from "../layout/LandingPage/Footer";
+import { FaRegEye, FaRegEyeSlash, FaSpinner, FaUser } from "react-icons/fa";
 
 function Login({ login, isAuthenticated }) {
   const [formData, setFormData] = useState({
@@ -10,57 +13,112 @@ function Login({ login, isAuthenticated }) {
     password: "",
   });
   const { email, password } = formData;
+  const [toggleHide, setToggleHide] = useState(true);
+
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onSubmit = async (e) => {
+
     e.preventDefault();
-    login(email, password);
+     let tempErrors = {};
+
+  if (!email.trim()) tempErrors.email = "Email is required";
+  if (!password.trim()) tempErrors.password = "Password is required";
+
+  if (Object.keys(tempErrors).length > 0) {
+    setErrors(tempErrors);
+    return; 
+  }
+
+  setErrors({}); 
+    try {
+      setLoading(true);
+      await login(email, password);
+    } finally {
+      setLoading(false);
+    }
+    
   };
 
   //redirect if logged in
-  
-  
-    if (isAuthenticated) {
-      return <Navigate to="/dashboard" />;
-    }
-  
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <>
-      <section className="container">
-        <h1 className="large text-primary">Log In</h1>
-        <p className="lead">
-          <i className="fas fa-user"></i> Login To Your Account
-        </p>
-        <form className="form" onSubmit={(e) => onSubmit(e)}>
-          <div className="form-group">
+      <LandingPageNavbar />
+      <section className="flex justify-center items-center min-h-[80vh]">
+        <div className="md:max-w-100 w-100 py-30 sm:px-0 px-4">
+          <h2 className="md:text-4xl text-xl font-semibold text-blue-600">
+            Login
+          </h2>
+          <p className="flex items-center md:gap-x-3 gap-x-1 pt-2 pb-5 md:text-lg text-base">
+            <FaUser /> Welcome back!
+          </p>
+          <form className="form" onSubmit={(e) => onSubmit(e)}>
             <input
               type="email"
               placeholder="Email Address"
               name="email"
-              required
               value={email}
               onChange={(e) => onChange(e)}
+              className="bg-gray-100 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
             />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              minLength="6"
-              required
-              value={password}
-              onChange={(e) => onChange(e)}
-            />
-          </div>
-
-          <input type="submit" className="btn btn-primary" value="Login" />
-        </form>
-        <p className="my-1">
-          Don't have an account? <Link to="/register">Sign Up</Link>
-        </p>
+            {errors.email && (
+              <small className="text-red-600 text-sm">{errors.email}</small>
+            )}
+            <div className="relative">
+              <input
+                type={toggleHide ? "password" : "text"}
+                placeholder="Password"
+                name="password"
+                minLength="6"
+                value={password}
+                onChange={(e) => onChange(e)}
+                className="bg-gray-100 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+              />
+              <p
+                className="absolute top-1/2 right-7 transform translate-y-[-50%] cursor-pointer text-blue-600"
+                onClick={() => setToggleHide(!toggleHide)}
+              >
+                {toggleHide ? <FaRegEye /> : <FaRegEyeSlash />}
+              </p>
+            </div>
+              {errors.password && (
+              <small className="text-red-600 text-sm">{errors.password}</small>
+            )}
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full py-3 px-7 rounded-xl text-base cursor-pointer text-white transition-all duration-300 my-2 ${
+                loading
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {loading ? (
+                <FaSpinner className="animate-spin text-xl  mx-auto" />
+              ) : (
+                "Login"
+              )}
+            </button>
+            <p className="text-center">
+              Do not have any account?{" "}
+              <Link to="/register" className="text-blue-600 cursor-pointer">
+                Sign Up
+              </Link>
+            </p>
+          </form>
+        </div>
       </section>
+      <Footer />
     </>
   );
 }
@@ -74,3 +132,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { login })(Login);
+
