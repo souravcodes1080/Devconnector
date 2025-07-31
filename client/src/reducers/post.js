@@ -35,7 +35,7 @@ export default function (state = initialState, action) {
     case ADD_POST:
       return {
         ...state,
-        posts: [...state.posts, payload],
+        posts: [payload,...state.posts ],
         loading: false,
       };
     case DELETE_POST:

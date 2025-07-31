@@ -48,11 +48,11 @@ function Login({ login, isAuthenticated }) {
   //redirect if logged in
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/posts" />;
   }
 
   return (
-    <>
+    <div className="bg-gray-50">
       <LandingPageNavbar />
       <section className="flex justify-center items-center min-h-[80vh]">
         <div className="md:max-w-100 w-100 py-30 sm:px-0 px-4">
@@ -69,7 +69,7 @@ function Login({ login, isAuthenticated }) {
               name="email"
               value={email}
               onChange={(e) => onChange(e)}
-              className="bg-gray-100 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+              className="bg-white border border-black/20 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
             />
             {errors.email && (
               <small className="text-red-600 text-sm">{errors.email}</small>
@@ -82,7 +82,7 @@ function Login({ login, isAuthenticated }) {
                 minLength="6"
                 value={password}
                 onChange={(e) => onChange(e)}
-                className="bg-gray-100 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+                className="bg-white border border-black/20 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
               />
               <p
                 className="absolute top-1/2 right-7 transform translate-y-[-50%] cursor-pointer text-blue-600"
@@ -118,8 +118,7 @@ function Login({ login, isAuthenticated }) {
           </form>
         </div>
       </section>
-      <Footer />
-    </>
+    </div>
   );
 }
 

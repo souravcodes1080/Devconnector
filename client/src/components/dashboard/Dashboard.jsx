@@ -4,10 +4,12 @@ import { connect } from "react-redux";
 import { deleteAccount, getCurrentProfile } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
 import { Link, useNavigate } from "react-router-dom";
+import Footer from "../layout/LandingPage/Footer";
 import DashboardAction from "./DashboardAction";
 import Experience from "./Experience";
 import Education from "./Education";
 import Navbar from "../layout/Navbar";
+import DashboardNavbar from "./DashboardNavbar";
 
 function Dashboard({
   getCurrentProfile,
@@ -19,11 +21,11 @@ function Dashboard({
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
-  return loading && profile === null ? (
+  return loading && profile == null ? (
     <Spinner />
   ) : (
     <>
-    <Navbar />
+      <DashboardNavbar />
       <div className="container">
         <h1 className="large text-primary">Dashboard</h1>
         <p className="lead">
@@ -32,7 +34,9 @@ function Dashboard({
         {profile !== null ? (
           <>
             <DashboardAction />
-            {profile.experience && <Experience experience={profile.experience} />}
+            {profile.experience && (
+              <Experience experience={profile.experience} />
+            )}
             {profile.education && <Education education={profile.education} />}
             <div className="my-2">
               <button

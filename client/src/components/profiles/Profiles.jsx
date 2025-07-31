@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getAllProfiles } from "../../actions/profile";
 import ProfileItem from "./ProfileItem";
+import DashboardNavbar from "../dashboard/DashboardNavbar";
 function Profiles({ getAllProfiles, profile: { profiles, loading } }) {
   useEffect(() => {
     getAllProfiles();
@@ -26,6 +27,7 @@ function Profiles({ getAllProfiles, profile: { profiles, loading } }) {
   }, [search, profiles]);
   return (
     <div className="container">
+      <DashboardNavbar />
       {loading ? (
         <Spinner />
       ) : (

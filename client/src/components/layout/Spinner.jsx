@@ -2,18 +2,13 @@ import React from "react";
 import spinner from "../../img/spinner.gif";
 function Spinner() {
   return (
-    <>
+    <div className="h-[80vh] flex items-center justify-center">
       <img
         src={spinner}
-        style={{
-          width: "100px",
-          margin: "auto",
-          marginTop: "100px",
-          display: "block",
-        }}
+        className="w-10 h-10"
         alt="loading..."
       />
-    </>
+    </div>
   );
 }
 

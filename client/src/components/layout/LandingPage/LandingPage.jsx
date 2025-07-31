@@ -14,7 +14,6 @@ function LandingPage() {
       <Section1 />
       <Section2 />
       <NewsLetter />
-      <Footer />
     </>
   );
 }

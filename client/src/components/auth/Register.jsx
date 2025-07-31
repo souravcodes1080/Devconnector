@@ -53,10 +53,10 @@ function Register({ setAlert, register, isAuthenticated }) {
 
   //redirect if registered in
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/posts" />;
   }
   return (
-    <>
+    <div className="bg-gray-50">
       <LandingPageNavbar />
       <section className="flex justify-center items-center min-h-[80vh]">
         <div className="md:max-w-100 min-w-70 py-30 sm:px-0 px-4">
@@ -73,7 +73,7 @@ function Register({ setAlert, register, isAuthenticated }) {
               name="name"
               value={name}
               onChange={(e) => onChange(e)}
-              className="bg-gray-100 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+              className="border border-black/20 bg-white w-full rounded-xl py-3 px-7 outline-none text-base my-2"
             />
             {errors.name && (
               <small className="text-red-600 text-sm">{errors.name}</small>
@@ -85,7 +85,7 @@ function Register({ setAlert, register, isAuthenticated }) {
               name="email"
               value={email}
               onChange={(e) => onChange(e)}
-              className="bg-gray-100 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+              className="border border-black/20 bg-white w-full rounded-xl py-3 px-7 outline-none text-base my-2"
             />
             {errors.email && (
               <small className="text-red-600 text-sm">{errors.email}</small>
@@ -99,7 +99,7 @@ function Register({ setAlert, register, isAuthenticated }) {
                 minLength={6}
                 value={password}
                 onChange={(e) => onChange(e)}
-                className="bg-gray-100 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+                className="border border-black/20 bg-white w-full rounded-xl py-3 px-7 outline-none text-base my-2"
               />
               <p
                 className="absolute top-1/2 right-7 transform translate-y-[-50%] cursor-pointer text-blue-600"
@@ -117,7 +117,7 @@ function Register({ setAlert, register, isAuthenticated }) {
                 name="password2"
                 value={password2}
                 onChange={(e) => onChange(e)}
-                className="bg-gray-100 w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+                className="border border-black/20 bg-white w-full rounded-xl py-3 px-7 outline-none text-base my-2"
               />
 
               <p
@@ -157,8 +157,7 @@ function Register({ setAlert, register, isAuthenticated }) {
           </form>
         </div>
       </section>
-      <Footer />
-    </>
+    </div>
   );
 }
 Register.PropTypes = {

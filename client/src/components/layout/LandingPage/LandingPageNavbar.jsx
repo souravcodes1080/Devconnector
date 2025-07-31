@@ -15,10 +15,10 @@ function LandingPageNavbar() {
         </Link>
         <div className="flex items-center">
 
-          <Link to={'/profiles'} className="mr-7 text-base flex items-center gap-x-2 ransition-all duration-300 hover:text-blue-700 cursor-pointer">
+          <Link to={'/profiles'} className="mr-7 text-base flex items-center gap-x-2 transition-all duration-300 hover:text-blue-700 cursor-pointer">
             <MdPeopleAlt /> People
           </Link>
-          <Link to="/login" className="mr-7 text-base ransition-all duration-300 hover:text-blue-700 cursor-pointer">Login</Link>
+          <Link to="/login" className="mr-7 text-base transition-all duration-300 hover:text-blue-700 cursor-pointer">Login</Link>
           <Link to={'/register'} className="bg-blue-600 text-white text-base font-semibold sm:px-5 px-4 py-2 rounded-full cursor-pointer transition-all duration-300 hover:bg-blue-700">
             Join now
           </Link>
