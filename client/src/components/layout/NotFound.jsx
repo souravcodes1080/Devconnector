@@ -1,16 +1,20 @@
-import React from 'react'
+import React from "react";
+import LandingPageNavbar from "./LandingPage/LandingPageNavbar";
+import Footer from "./LandingPage/Footer";
+import { BiSolidErrorCircle } from "react-icons/bi";
 
 function NotFound() {
   return (
     <>
-        <div className="container">
-            <h1 className='x-large text-primary'>
-                <i className="fas fa-exclamation-triangle"></i> Page Not Found
-            </h1>
-            <p className='large'>Sorry, this page does not exists.</p>
-        </div>
+      <LandingPageNavbar />
+      <div className="h-[80vh] flex flex-col items-center justify-center">
+        <BiSolidErrorCircle className="text-8xl" />
+
+        <h2 className="text-2xl pt-5">Sorry, this page does not exists!</h2>
+      </div>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default NotFound
+export default NotFound;

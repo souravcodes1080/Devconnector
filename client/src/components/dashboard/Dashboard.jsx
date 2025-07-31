@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import DashboardAction from "./DashboardAction";
 import Experience from "./Experience";
 import Education from "./Education";
+import Navbar from "../layout/Navbar";
 
 function Dashboard({
   getCurrentProfile,
@@ -22,6 +23,7 @@ function Dashboard({
     <Spinner />
   ) : (
     <>
+    <Navbar />
       <div className="container">
         <h1 className="large text-primary">Dashboard</h1>
         <p className="lead">
