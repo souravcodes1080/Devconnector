@@ -57,13 +57,13 @@ function Register({ setAlert, register, isAuthenticated }) {
   }
   return (
     <div className="bg-gray-50">
-      <LandingPageNavbar />
+      
       <section className="flex justify-center items-center min-h-[80vh]">
-        <div className="md:max-w-100 min-w-70 py-30 sm:px-0 px-4">
-          <h2 className="md:text-4xl text-xl font-semibold text-blue-600">
+        <div className="px-4 md:max-w-100 min-w-70 py-30 sm:px-0">
+          <h2 className="text-xl font-semibold text-blue-600 md:text-4xl">
             Register
           </h2>
-          <p className="flex items-center md:gap-x-3 gap-x-1 pt-2 pb-5 md:text-lg text-base">
+          <p className="flex items-center pt-2 pb-5 text-base md:gap-x-3 gap-x-1 md:text-lg">
             <FaUser /> Create Your Account
           </p>
           <form onSubmit={(e) => onSubmit(e)}>
@@ -73,10 +73,10 @@ function Register({ setAlert, register, isAuthenticated }) {
               name="name"
               value={name}
               onChange={(e) => onChange(e)}
-              className="border border-black/20 bg-white w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+              className="w-full py-3 my-2 text-base bg-white border outline-none border-black/20 rounded-xl px-7"
             />
             {errors.name && (
-              <small className="text-red-600 text-sm">{errors.name}</small>
+              <small className="text-sm text-red-600">{errors.name}</small>
             )}
 
             <input
@@ -85,10 +85,10 @@ function Register({ setAlert, register, isAuthenticated }) {
               name="email"
               value={email}
               onChange={(e) => onChange(e)}
-              className="border border-black/20 bg-white w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+              className="w-full py-3 my-2 text-base bg-white border outline-none border-black/20 rounded-xl px-7"
             />
             {errors.email && (
-              <small className="text-red-600 text-sm">{errors.email}</small>
+              <small className="text-sm text-red-600">{errors.email}</small>
             )}
 
             <div className="relative">
@@ -99,7 +99,7 @@ function Register({ setAlert, register, isAuthenticated }) {
                 minLength={6}
                 value={password}
                 onChange={(e) => onChange(e)}
-                className="border border-black/20 bg-white w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+                className="w-full py-3 my-2 text-base bg-white border outline-none border-black/20 rounded-xl px-7"
               />
               <p
                 className="absolute top-1/2 right-7 transform translate-y-[-50%] cursor-pointer text-blue-600"
@@ -117,7 +117,7 @@ function Register({ setAlert, register, isAuthenticated }) {
                 name="password2"
                 value={password2}
                 onChange={(e) => onChange(e)}
-                className="border border-black/20 bg-white w-full rounded-xl py-3 px-7 outline-none text-base my-2"
+                className="w-full py-3 my-2 text-base bg-white border outline-none border-black/20 rounded-xl px-7"
               />
 
               <p
@@ -128,7 +128,7 @@ function Register({ setAlert, register, isAuthenticated }) {
               </p>
             </div>
             {errors.password2 && (
-              <small className="text-red-600 text-sm ">
+              <small className="text-sm text-red-600 ">
                 {errors.password2}
               </small>
             )}
@@ -143,7 +143,7 @@ function Register({ setAlert, register, isAuthenticated }) {
               }`}
             >
               {loading ? (
-                <FaSpinner className="animate-spin text-xl  mx-auto" />
+                <FaSpinner className="mx-auto text-xl animate-spin" />
               ) : (
                 "Register"
               )}

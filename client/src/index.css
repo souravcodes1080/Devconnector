@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+.scroll-drag {
+  cursor: grab;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.scroll-drag:active {
+  cursor: grabbing;
+}
+
+
+/* hide scrollbar in all browsers */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

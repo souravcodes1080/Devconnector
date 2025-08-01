@@ -25,7 +25,6 @@ function Dashboard({
     <Spinner />
   ) : (
     <>
-      <DashboardNavbar />
       <div className="container">
         <h1 className="large text-primary">Dashboard</h1>
         <p className="lead">
@@ -53,7 +52,7 @@ function Dashboard({
               You have not yet set up your profile, please add some info to
               increase your visibility{" "}
             </p>{" "}
-            <Link to="/create-profile" className="btn btn-primary my-1">
+            <Link to="/create-profile" className="my-1 btn btn-primary">
               Create Profile
             </Link>
           </>

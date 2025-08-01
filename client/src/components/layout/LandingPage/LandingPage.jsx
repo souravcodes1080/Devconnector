@@ -9,7 +9,6 @@ import Footer from "./Footer";
 function LandingPage() {
   return (
     <>
-      <LandingPageNavbar />
       <Hero />
       <Section1 />
       <Section2 />

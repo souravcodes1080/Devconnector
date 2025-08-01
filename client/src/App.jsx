@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import "./App.css";
+// import "./App.css";
+import './index.css';
 import {
   BrowserRouter as Router,
   Routes,
@@ -28,6 +29,9 @@ import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
 import Post from "./components/post/Post";
 import NotFound from "./components/layout/NotFound";
+import Footer from "./components/layout/LandingPage/Footer";
+import LandingPageNavbar from "./components/layout/LandingPage/LandingPageNavbar";
+import DashboardNavbar from "./components/dashboard/DashboardNavbar";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -51,7 +55,10 @@ function App() {
 
   return (
     <Router>
-      <Navbar />
+      {/* <Navbar /> */}
+      <>
+      {isAuthenticated ? <DashboardNavbar /> : <LandingPageNavbar />}
+      </>
       <Alert />
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -61,12 +68,12 @@ function App() {
         <Route
           path="/register"
           element={
-            isAuthenticated ? <Navigate to="/dashboard" /> : <Register />
+            isAuthenticated ? <Navigate to="/posts" /> : <Register />
           }
         />
         <Route
           path="/login"
-          element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
+          element={isAuthenticated ? <Navigate to="/posts" /> : <Login />}
         />
         <Route
           path="/dashboard"
@@ -90,13 +97,14 @@ function App() {
         />
         <Route
           path="/posts"
-          element={!isAuthenticated ? <Navigate to="/" /> : <Posts />}
+          element={!isAuthenticated ? <Navigate to="/login" /> : <Posts />}
         />
         <Route
           path="/posts/:id"
           element={!isAuthenticated ? <Navigate to="/" /> : <Post />}
         />
       </Routes>
+      <Footer/>
     </Router>
   );
 }
