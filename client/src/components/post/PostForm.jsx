@@ -5,7 +5,9 @@ import { addPost } from "../../actions/post";
 import { LuImagePlus } from "react-icons/lu";
 import { FaTrashAlt } from "react-icons/fa";
 import { setAlert } from "../../actions/alert";
+import { useNavigate } from "react-router-dom";
 function PostForm({ addPost, setAlert, auth: { user } }) {
+  const navigate = useNavigate();
   const [text, setText] = useState("");
   const [images, setImages] = useState([]);
   const [posting, setPosting] = useState(false);
@@ -54,12 +56,13 @@ function PostForm({ addPost, setAlert, auth: { user } }) {
 
   return (
     <>
-      <div className=" border border-gray-300/50 bg-white shadow-sm rounded-xl pt-8 px-10 lg:w-[30%] md:w-[80%] lg:absolute lg:mr-auto mx-auto lg:mb-0 mb-6">
+      <div className=" border border-gray-300/50 bg-white shadow-sm rounded-xl pt-5 md:pt-8 px-5 md:px-10 lg:w-[30%] md:w-[80%] lg:absolute lg:mr-auto mx-auto lg:mb-0 mb-6">
         <div className="flex items-center w-full gap-x-5">
           <img
+            onClick={() => navigate(`/profile/${user._id}`)}
             src={user.avatar}
             alt=""
-            className="rounded-full w-[60px] h-[60px] object-cover"
+            className="rounded-full w-[60px] h-[60px] object-cover cursor-pointer"
           />
           <div className="flex-1 min-w-0">
             <h4 className="w-full text-xl truncate ">{user.name}</h4>

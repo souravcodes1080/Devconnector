@@ -3,116 +3,90 @@ import React from "react";
 function PostItemSkeleton() {
   return (
     <>
-      <div className="border border-gray-300/50 bg-white shadow-sm rounded-xl pt-8 px-10 my-5 mt-0">
-        <div className="flex  sm:items-start items-center justify-between mb-5">
-          <div className="flex items-center gap-x-5">
-            <div
-              className="w-15 rounded-full h-15 bg-gray-100"
-            ></div>
+      <div className="w-full px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl">
+        <div className="flex items-center justify-between w-full mb-5 sm:items-start">
+          <div className="flex items-center w-full gap-x-5">
+            <div className="bg-gray-100 rounded-full w-15 h-15"></div>
             <div>
-              <p className=" w-50 h-6 bg-gray-100 rounded-lg"></p>
-              <p className="w-30 h-6 bg-gray-100 rounded-lg mt-1"></p>
+              <p className="h-6 bg-gray-100 rounded-lg w-30 sm:w-50"></p>
+              <p className="w-20 h-6 mt-1 bg-gray-100 rounded-lg sm:w-30"></p>
             </div>
           </div>
         </div>
-        <p className="mb-5 w-full h-30 bg-gray-100 rounded-lg"></p>
+        <p className="w-full mb-5 bg-gray-100 rounded-lg h-30"></p>
 
         <hr className="opacity-15" />
         <div className="flex items-center justify-between my-2 mb-4">
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
+
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
+
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
         </div>
       </div>
-      <div className="border border-gray-300/50 bg-white shadow-sm rounded-xl pt-8 px-10 my-5 mt-0">
-        <div className="flex  sm:items-start items-center justify-between mb-5">
-          <div className="flex items-center gap-x-5">
-            <div
-              className="w-15 rounded-full h-15 bg-gray-100"
-            />
+      <div className="w-full px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl">
+        <div className="flex items-center justify-between w-full mb-5 sm:items-start">
+          <div className="flex items-center w-full gap-x-5">
+            <div className="bg-gray-100 rounded-full w-15 h-15"></div>
             <div>
-              <p className=" w-50 h-6 bg-gray-100 rounded-lg"></p>
-              <p className="w-30 h-6 bg-gray-100 rounded-lg mt-1"></p>
+              <p className="h-6 bg-gray-100 rounded-lg w-30 sm:w-50"></p>
+              <p className="w-20 h-6 mt-1 bg-gray-100 rounded-lg sm:w-30"></p>
             </div>
           </div>
         </div>
-        <p className="mb-5 w-full h-30 bg-gray-100 rounded-lg"></p>
+        <p className="w-full mb-5 bg-gray-100 rounded-lg h-30"></p>
 
         <hr className="opacity-15" />
         <div className="flex items-center justify-between my-2 mb-4">
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
+
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
+
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
         </div>
       </div>
-      <div className="border border-gray-300/50 bg-white shadow-sm rounded-xl pt-8 px-10 my-5 mt-0">
-        <div className="flex  sm:items-start items-center justify-between mb-5">
-          <div className="flex items-center gap-x-5">
-            <div
-              
-              className="w-15 rounded-full h-15 bg-gray-100"
-            />
+      <div className="w-full px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl">
+        <div className="flex items-center justify-between w-full mb-5 sm:items-start">
+          <div className="flex items-center w-full gap-x-5">
+            <div className="bg-gray-100 rounded-full w-15 h-15"></div>
             <div>
-              <p className=" w-50 h-6 bg-gray-100 rounded-lg"></p>
-              <p className="w-30 h-6 bg-gray-100 rounded-lg mt-1"></p>
+              <p className="h-6 bg-gray-100 rounded-lg w-30 sm:w-50"></p>
+              <p className="w-20 h-6 mt-1 bg-gray-100 rounded-lg sm:w-30"></p>
             </div>
           </div>
         </div>
-        <p className="mb-5 w-full h-30 bg-gray-100 rounded-lg"></p>
+        <p className="w-full mb-5 bg-gray-100 rounded-lg h-30"></p>
 
         <hr className="opacity-15" />
         <div className="flex items-center justify-between my-2 mb-4">
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
+
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
+
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
         </div>
       </div>
-      <div className="border border-gray-300/50 bg-white shadow-sm rounded-xl pt-8 px-10 my-5 mt-0">
-        <div className="flex  sm:items-start items-center justify-between mb-5">
-          <div className="flex items-center gap-x-5">
-            <div
-              className="w-15 rounded-full h-15 bg-gray-100"
-            />
+      <div className="w-full px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl">
+        <div className="flex items-center justify-between w-full mb-5 sm:items-start">
+          <div className="flex items-center w-full gap-x-5">
+            <div className="bg-gray-100 rounded-full w-15 h-15"></div>
             <div>
-              <p className=" w-50 h-6 bg-gray-100 rounded-lg"></p>
-              <p className="w-30 h-6 bg-gray-100 rounded-lg mt-1"></p>
+              <p className="h-6 bg-gray-100 rounded-lg w-30 sm:w-50"></p>
+              <p className="w-20 h-6 mt-1 bg-gray-100 rounded-lg sm:w-30"></p>
             </div>
           </div>
         </div>
-        <p className="mb-5 w-full h-30 bg-gray-100 rounded-lg"></p>
+        <p className="w-full mb-5 bg-gray-100 rounded-lg h-30"></p>
 
         <hr className="opacity-15" />
         <div className="flex items-center justify-between my-2 mb-4">
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
-          <div className="flex items-center gap-x-3 cursor-pointer  hover:bg-gray-100 px-7 rounded-full py-2">
-            <span className=" w-30 h-6 bg-gray-100 rounded-lg"></span>
-          </div>
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
+
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
+
+          <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
         </div>
       </div>
-      
     </>
   );
 }

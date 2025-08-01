@@ -45,7 +45,7 @@ function PostItem({
   }, []);
   return (
     <>
-      <div className="px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl">
+      <div className="px-5 pt-5 mt-0 mb-5 bg-white border shadow-sm y-5 md:pt-8 md:px-10 border-gray-300/50 rounded-xl">
         <div className="flex items-center justify-between mb-5 sm:items-start">
           <Link to={`/profile/${user}`} className="flex items-center gap-x-5">
             <img
@@ -135,7 +135,7 @@ function PostItem({
         </div>
         {showActions && <>
           <hr className="opacity-15" />
-          <div className="flex items-center justify-between my-2 mb-4">
+          <div className="flex items-center justify-between my-2 md:mb-4">
             <button
               className="flex items-center py-2 rounded-full cursor-pointer gap-x-3 hover:bg-gray-100 px-7"
               onClick={() => {

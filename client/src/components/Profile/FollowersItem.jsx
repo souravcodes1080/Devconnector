@@ -29,22 +29,15 @@ function FollowersItem({ follower }) {
   return (
     <Link
       to={`/profile/${user._id}`}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        minWidth: "200px",
-        border: "1px solid gray",
-        padding: "20px 20px",
-      }}
+      className="flex items-center mt-2 transition-all duration-200 rounded-full hover:bg-gray-100 gap-x-2"
     >
       <img
         src={user.avatar}
-        style={{ width: "80px", borderRadius: "100px" }}
+        className="w-12 h-12 rounded-full"
         alt="avatar"
       />
       <br />
-      <h4 className="mt-1">{user.name}</h4>
+      <h4 className="">{user.name}</h4>
     </Link>
   );
 }

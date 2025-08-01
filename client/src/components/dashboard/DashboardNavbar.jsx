@@ -23,24 +23,24 @@ function DashboardNavbar({ auth: { user, isAuthenticated }, logout }) {
   }, []);
 
   return (
-    <header className="w-full mx-auto fixed z-10 bg-white/25 backdrop-blur-sm">
+    <header className="fixed z-10 w-full mx-auto bg-white/25 backdrop-blur-sm">
       <div className="sm:w-[80%] sm:max-w-[1920px] w-[95%] sm:py-4 py-5 mx-auto flex items-center justify-between">
         <Link to={"/"}>
-          <h1 className="flex items-center font-bold gap-x-3 text-3xl text-blue-600 cursor-pointer">
+          <h1 className="flex items-center text-3xl font-bold text-blue-600 cursor-pointer gap-x-3">
             <FaCode />
             <span className="hidden sm:block">Connect</span>
           </h1>
         </Link>
-        <div className="flex items-center relative" ref={dropdownRef}>
+        <div className="relative flex items-center" ref={dropdownRef}>
           <Link
             to={"/profiles"}
-            className="mr-7 text-base flex items-center gap-x-2 transition-all duration-300 hover:text-blue-700 cursor-pointer"
+            className="flex items-center text-base transition-all duration-300 cursor-pointer mr-7 gap-x-2 hover:text-blue-700"
           >
             <MdPeopleAlt /> People
           </Link>
           <Link
             to="/posts"
-            className="mr-7 text-base transition-all flex items-center gap-x-2 duration-300 hover:text-blue-700 cursor-pointer"
+            className="flex items-center text-base transition-all duration-300 cursor-pointer mr-7 gap-x-2 hover:text-blue-700"
           >
             <MdOutlineDashboardCustomize /> Posts
           </Link>
@@ -50,7 +50,7 @@ function DashboardNavbar({ auth: { user, isAuthenticated }, logout }) {
               <img
                 onClick={() => setShowDropdown((prev) => !prev)}
                 src={user.avatar}
-                className="sm:w-15 w-12 rounded-full bg-white cursor-pointer transition-transform duration-100 hover:scale-105 active:scale-95"
+                className="w-12 transition-transform duration-100 bg-white rounded-full cursor-pointer sm:w-15 hover:scale-105 active:scale-95"
                 alt="avatar"
               />
               <div
@@ -61,19 +61,19 @@ function DashboardNavbar({ auth: { user, isAuthenticated }, logout }) {
                 }`}
               >
                 <div className="p-4 border-b border-gray-200">
-                  <p className="text-sm text-gray-700 font-medium">
+                  <p className="text-sm font-medium text-gray-700">
                     Hello, {user.name.split(" ")[0]}!
                   </p>
                 </div>
                 <button
-                  onClick={()=>navigate("/dashboard")}
-                  className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-all"
+                  onClick={()=>navigate(`/profile/${user._id}`)}
+                  className="w-full px-4 py-3 text-sm text-left text-gray-700 transition-all cursor-pointer hover:bg-gray-100"
                 >
                   Your Profile
                 </button>
                 <button
                   onClick={logout}
-                  className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-red-600 transition-all"
+                  className="w-full px-4 py-3 text-sm text-left text-red-600 transition-all cursor-pointer hover:bg-gray-100"
                 >
                   Logout
                 </button>

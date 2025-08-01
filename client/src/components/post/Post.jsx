@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { addComment, deleteComment, getPost } from "../../actions/post";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import PostItem from "./PostItem";
 import { GoPaperAirplane } from "react-icons/go";
 
@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { FaChevronLeft } from "react-icons/fa6";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { GoChevronLeft } from "react-icons/go";
+import PostItemSkeleton from "./PostItemSkeleton";
 
 function Post({
   auth,
@@ -19,6 +20,7 @@ function Post({
   deleteComment,
   post: { loading, post },
 }) {
+  const navigate = useNavigate()
   const { id } = useParams();
   useEffect(() => {
     getPost(id);
@@ -27,19 +29,23 @@ function Post({
   const [activeMenu, setActiveMenu] = useState(null);
 
   return loading || post === null ? (
-    <Spinner />
+    <div className="sm:w-[80%] sm:max-w-[1920px] w-[90%] mx-auto pt-25  ">
+      <div className="posts lg:w-[60%] md:w-[80%] w-[100%]  mx-auto relative">
+        <PostItemSkeleton />
+      </div>
+    </div>
   ) : (
     <div className="bg-gray-50">
       <div className="sm:w-[80%] sm:max-w-[1920px] w-[90%] mx-auto pt-25  ">
-        <section className="container">
+        <section className="">
           <div className="posts lg:w-[60%] md:w-[80%] w-[100%]  mx-auto relative">
             <PostItem showActions={false} post={post} />
-            <Link
-              to="/posts"
+            <button
+              onClick={()=>navigate(-1)}
               className="absolute top-0 hidden px-4 py-3 transition-all duration-300 bg-white border rounded-lg shadow-sm hover:bg-gray-50 border-gray-300/10 -left-17 md:block"
             >
-              <GoChevronLeft  className="text-2xl " />
-            </Link>
+              <GoChevronLeft className="text-2xl " />
+            </button>
             <div className="post-form">
               <div className="pt-7 ">
                 <h3 className="text-xl font-semibold md:text-2xl">
@@ -84,7 +90,7 @@ function Post({
               {post.comments.map((comment) => (
                 <div
                   key={comment._id}
-                  className="px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl"
+                  className="px-5 pt-5 my-5 mt-0 bg-white border shadow-sm md:pt-8 md:px-10 border-gray-300/50 rounded-xl"
                 >
                   <div className="flex items-center justify-between mb-5 sm:items-start">
                     <Link
@@ -132,7 +138,7 @@ function Post({
                                     "Are you sure you want to delete this comment?"
                                   )
                                 ) {
-                                   deleteComment(post._id, comment._id);
+                                  deleteComment(post._id, comment._id);
                                 }
                               }}
                               className="w-full px-4 py-3 text-sm text-left text-red-600 hover:bg-red-50"

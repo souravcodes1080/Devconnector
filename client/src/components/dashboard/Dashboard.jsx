@@ -25,7 +25,7 @@ function Dashboard({
     <Spinner />
   ) : (
     <>
-      <div className="container">
+      <div className="sm:w-[80%] sm:max-w-[1920px] w-[90%] mx-auto pt-25 ">
         <h1 className="large text-primary">Dashboard</h1>
         <p className="lead">
           <i className="fas fa-user"></i> Welcome {user && user.name}

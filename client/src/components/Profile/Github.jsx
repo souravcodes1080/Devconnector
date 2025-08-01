@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getGithubRepos } from "../../actions/profile";
+import { FaStar } from "react-icons/fa6";
+import { RiShareBoxLine } from "react-icons/ri";
+
 function Github({ githubUsername, getGithubRepos, repos }) {
   useEffect(() => {
     getGithubRepos(githubUsername);
@@ -10,42 +13,36 @@ function Github({ githubUsername, getGithubRepos, repos }) {
 
   return (
     <>
-      <div className="profile-github">
-        <h2 className="text-primary my-1">
-          <i className="fab fa-github"></i> Github Repository
-        </h2>
+      <div className="w-full mt-3">
         {repos === null ? (
+          
           <Spinner />
         ) : (
-          repos.map((repo) => (
-            <div className="repo bg-white p-1 my-1" key={repo.id}>
-              <div>
-                <h4>
+          repos.map((repo, i) => (
+            <div className="" key={repo.id}>
+              <div className="flex items-center justify-between w-full ">
+                <h4 className="text-lg transition-all duration-300 hover:underline ">
                   <a
                     href={repo.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {repo.name}
+                    {repo.name} <RiShareBoxLine className="inline opacity-50" /> 
                   </a>
                 </h4>
-                <p>
-                 {repo.description ? repo.description : <i>No description available.</i>}
-                </p>
+
+                <div>
+                  <ul>
+                    <li className="flex items-center text-lg">
+                      <FaStar className="text-yellow-300" />{" "}
+                      {repo.stargazers_count}
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <div>
-                <ul>
-                  <li className="badge badge-primary" style={{paddingLeft:"10px", paddingRight:"10px"}}>
-                    Stars: {repo.stargazers_count}
-                  </li>
-                  <li className="badge badge-dark" style={{paddingLeft:"10px", paddingRight:"10px"}}>
-                    Watchers: {repo.watchers_count}
-                  </li>
-                  <li className="badge badge-light" style={{paddingLeft:"10px", paddingRight:"10px"}}>
-                    Forks: {repo.forks_count}
-                  </li>
-                </ul>
-              </div>
+              {i !== repos.length - 1 && (
+                <hr className="mt-2 mb-2 opacity-25" />
+              )}
             </div>
           ))
         )}
