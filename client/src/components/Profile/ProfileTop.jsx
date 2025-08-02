@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import Github from "./Github";
 import { Link, useNavigate } from "react-router-dom";
 import FollowersItem from "./FollowersItem";
+import { RiUserAddLine } from "react-icons/ri";
+
 import {
   FaCheck,
   FaFacebook,
@@ -159,8 +161,8 @@ function ProfileTop({ profile, auth, id, user }) {
               {auth.isAuthenticated &&
                 auth.loading === false &&
                 auth.user._id !== id && (
-                  <button className="text-blue-600 cursor-pointer">
-                    Follow +
+                  <button className="flex items-center text-blue-600 cursor-pointer gap-x-2">
+                    Follow <RiUserAddLine className=""/>
                   </button>
                 )}
             </div>
@@ -260,7 +262,6 @@ function ProfileTop({ profile, auth, id, user }) {
         )}
       </div>
 
-      {/* {githubUsername && <Github githubUsername={githubUsername} />} */}
     </>
   );
 }

@@ -21,17 +21,20 @@ import AddEducation from "./components/profile-form/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/Profile/Profile";
 import Posts from "./components/post/Posts";
+import Post from "./components/post/Post";
+import NotFound from "./components/layout/NotFound";
+import Footer from "./components/layout/LandingPage/Footer";
+import LandingPageNavbar from "./components/layout/LandingPage/LandingPageNavbar";
+import ScrollToTop from "./components/layout/ScrollToTop";
+import DashboardNavbar from "./components/dashboard/DashboardNavbar";
+
 
 // Redux
 import { Provider, useSelector } from "react-redux";
 import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
-import Post from "./components/post/Post";
-import NotFound from "./components/layout/NotFound";
-import Footer from "./components/layout/LandingPage/Footer";
-import LandingPageNavbar from "./components/layout/LandingPage/LandingPageNavbar";
-import DashboardNavbar from "./components/dashboard/DashboardNavbar";
+
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -55,7 +58,7 @@ function App() {
 
   return (
     <Router>
-      {/* <Navbar /> */}
+      <ScrollToTop />
       <>
       {isAuthenticated ? <DashboardNavbar /> : <LandingPageNavbar />}
       </>

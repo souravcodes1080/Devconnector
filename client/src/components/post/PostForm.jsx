@@ -53,6 +53,11 @@ function PostForm({ addPost, setAlert, auth: { user } }) {
       setPosting(false);
     }
   };
+  useState(()=>{
+    if(user.avatar === null){
+      navigate("/posts")
+    }
+  }, [])
 
   return (
     <>

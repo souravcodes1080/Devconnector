@@ -3,7 +3,7 @@ import React from "react";
 function PostItemSkeleton() {
   return (
     <>
-      <div className="w-full px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl">
+      <div className="w-full px-5 pt-5 my-5 mt-0 bg-white border shadow-sm md:pt-8 md:px-10 border-gray-300/50 rounded-xl">
         <div className="flex items-center justify-between w-full mb-5 sm:items-start">
           <div className="flex items-center w-full gap-x-5">
             <div className="bg-gray-100 rounded-full w-15 h-15"></div>
@@ -24,7 +24,7 @@ function PostItemSkeleton() {
           <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
         </div>
       </div>
-      <div className="w-full px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl">
+      <div className="w-full px-5 pt-5 my-5 mt-0 bg-white border shadow-sm md:pt-8 md:px-10 border-gray-300/50 rounded-xl">
         <div className="flex items-center justify-between w-full mb-5 sm:items-start">
           <div className="flex items-center w-full gap-x-5">
             <div className="bg-gray-100 rounded-full w-15 h-15"></div>
@@ -45,7 +45,7 @@ function PostItemSkeleton() {
           <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
         </div>
       </div>
-      <div className="w-full px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl">
+      <div className="w-full px-5 pt-5 my-5 mt-0 bg-white border shadow-sm md:pt-8 md:px-10 border-gray-300/50 rounded-xl">
         <div className="flex items-center justify-between w-full mb-5 sm:items-start">
           <div className="flex items-center w-full gap-x-5">
             <div className="bg-gray-100 rounded-full w-15 h-15"></div>
@@ -66,7 +66,7 @@ function PostItemSkeleton() {
           <span className="w-10 h-6 bg-gray-100 rounded-lg sm:w-30"></span>
         </div>
       </div>
-      <div className="w-full px-10 pt-8 my-5 mt-0 bg-white border shadow-sm border-gray-300/50 rounded-xl">
+      <div className="w-full px-5 pt-5 my-5 mt-0 bg-white border shadow-sm md:pt-8 md:px-10 border-gray-300/50 rounded-xl">
         <div className="flex items-center justify-between w-full mb-5 sm:items-start">
           <div className="flex items-center w-full gap-x-5">
             <div className="bg-gray-100 rounded-full w-15 h-15"></div>
