@@ -78,6 +78,7 @@ export const getUserById = (userId) => async (dispatch) => {
 //Get posts by user ID
 export const getPostsById = (userId) => async (dispatch) => {
   dispatch({ type: CLEAR_PROFILE_POSTS });
+  dispatch({ type: CLEAR_PROFILE });
   try {
     const res = await axios.get(`${BASE_API_URL}/api/posts/user/${userId}`);
     dispatch({
