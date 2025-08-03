@@ -145,7 +145,7 @@ function PostItem({
                 alreadyLiked ? removeLike(_id) : addLike(_id);
               }}
             >
-              {likes.some((like) => like.user === auth.user._id) ? (
+              {likes.some((like) => like.user === auth.user?._id) ? (
                 <FaThumbsUp className="text-blue-600" />
               ) : (
                 <FaRegThumbsUp />

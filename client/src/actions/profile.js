@@ -5,12 +5,14 @@ import { BASE_API_URL } from "../../API_CONFIG";
 import {
   ACCOUNT_DELETED,
   CLEAR_PROFILE,
+  CLEAR_PROFILE_POSTS,
   FOLLOW_USER,
   GET_PROFILE,
   GET_PROFILES,
   GET_REPOS,
   GET_USER,
   GET_USER_POSTS,
+  POSTS_LOADING,
   PROFILE_ERROR,
   UPDATE_PROFILE,
   USER_LOADED,
@@ -75,6 +77,7 @@ export const getUserById = (userId) => async (dispatch) => {
 
 //Get posts by user ID
 export const getPostsById = (userId) => async (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE_POSTS });
   try {
     const res = await axios.get(`${BASE_API_URL}/api/posts/user/${userId}`);
     dispatch({
@@ -91,7 +94,10 @@ export const getPostsById = (userId) => async (dispatch) => {
     });
   }
 };
-
+//clear posts
+export const clearProfilePosts = () => (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE_POSTS });
+};
 //Get github repos
 export const getGithubRepos = (username) => async (dispatch) => {
   try {
@@ -192,7 +198,7 @@ export const addExperience = (formData, navigate) => async (dispatch) => {
       type: UPDATE_PROFILE,
       payload: res.data,
     });
-    dispatch(setAlert("Experience added.", "primary"), navigate("/dashboard"));
+    dispatch(setAlert("Experience added.", "primary"), navigate(-1));
   } catch (error) {
     const errors = error.response.data.errors;
     if (errors) {
@@ -227,7 +233,7 @@ export const addEducation = (formData, navigate) => async (dispatch) => {
       type: UPDATE_PROFILE,
       payload: res.data,
     });
-    dispatch(setAlert("Education added.", "primary"), navigate("/dashboard"));
+    dispatch(setAlert("Education added.", "primary"), navigate(-1));
   } catch (error) {
     const errors = error.response.data.errors;
     if (errors) {

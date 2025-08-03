@@ -35,7 +35,7 @@ const randomColor = bannerColors[Math.floor(Math.random() * bannerColors.length)
 
       <img
         src={avatar}
-        className="absolute z-20 w-20 h-20 mx-auto transform translate-x-1/2 border-2 border-white rounded-full md:top-15 top-10 right-1/2 md:h-25 md:w-25"
+        className="absolute w-20 h-20 mx-auto transform translate-x-1/2 border-2 border-white rounded-full z-5 md:top-15 top-10 right-1/2 md:h-25 md:w-25"
         alt="avatar"
       />
       <div className="md:mt-35 mt-30">

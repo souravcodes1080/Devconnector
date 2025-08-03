@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import {
+  clearProfilePosts,
   getPostsById,
   getProfileById,
   getUserById,
@@ -23,13 +24,15 @@ function Profile({
   getPostsById,
   posts,
   followers,
+  clearProfilePosts,
 }) {
   const { id } = useParams();
   useEffect(() => {
+    clearProfilePosts();
     getPostsById(id);
     getProfileById(id);
     getUserById(id);
-  }, [getProfileById, getUserById, getPostsById, id]);
+  }, [clearProfilePosts, getProfileById, getUserById, getPostsById, id]);
   const navigate = useNavigate();
   return (
     <div>
@@ -69,16 +72,13 @@ function Profile({
                   <GoChevronLeft className="text-2xl " />
                 </button>
                 <ProfileTop profile={profile} user={user} id={id} />
-                <div>
-                  <h2 className="py-3 pt-5 text-xl font-semibold">
-                    Posts ({posts.length})
-                  </h2>
-                  {posts.length === 0 ? (
-                    <h4>No posts available.</h4>
-                  ) : (
-                    posts.map((post) => <PostItem post={post} key={post._id} />)
-                  )}
-                </div>
+                {loading ? (
+                  <Spinner />
+                ) : posts.length === 0 ? (
+                  <h4>No posts available.</h4>
+                ) : (
+                  posts.map((post) => <PostItem post={post} key={post._id} />)
+                )}
               </div>
             </div>
           </section>
@@ -185,78 +185,5 @@ export default connect(mapStateToProps, {
   getProfileById,
   getUserById,
   getPostsById,
+  clearProfilePosts,
 })(Profile);
-
-{
-  /* <div className="lg:block hidden border border-gray-300/50 bg-white shadow-sm rounded-xl pt-8  lg:w-[37%] md:w-[80%] lg:absolute top-50 right-0 lg:ml-auto ml-auto lg:mb-0 mb-6 px-10 py-10"></div> */
-}
-// <div className="sm:w-[80%] sm:max-w-[1920px] w-[90%] mx-auto pt-25 ">
-{
-  /* <div className="lg:w-[60%] md:w-[80%] w-[100%] lg:mr-auto lg:ml-0 mx-auto ">
-            <div className="relative">
-              
-              <ProfileTop profile={profile} />
-            </div>
-           
-
-            <div className="border border-gray-300/50 bg-white shadow-sm rounded-xl pt-8 px-10 w-[30%] absolute ml-auto mx-auto ">
-               {profile.followers.length > 0 ? (
-              <>
-                <h2 className="text-primary">
-                  Following ({profile.followers.length})
-                </h2>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    overflowX: "auto",
-                    overflowY: "hidden",
-                    paddingBottom: "10px",
-                  }}
-                  onWheel={(e) => {
-                    e.currentTarget.scrollLeft += e.deltaY;
-                  }}
-                >
-                  <div
-                    className="my-1"
-                    style={{ display: "flex", gap: "20px" }}
-                  >
-                    {profile.followers?.map((follower) => (
-                      <>
-                        <FollowersItem follower={follower} key={follower._id} />
-                      </>
-                    ))}
-                  </div>
-                </div>{" "}
-              </>
-            ) : (
-              <></>
-            )}
-            </div>
-            <div>
-              <h2 className="text-primary">Posts ({posts.length})</h2>
-              <div className="sm:w-[60%] sm:max-w-[1920px] w-[90%] mx-auto pt-25 ">
-                {posts.length === 0 ? (
-                  <h4>No posts available.</h4>
-                ) : (
-                  posts.map((post) => (
-                    <Link to={`/posts/${post._id}`}>
-                      <PostItem post={post} showActions={false} />
-                    </Link>
-                  ))
-                )}
-              </div>
-            </div>
-          </div> */
-}
-// </div>
-
-{
-  /* {auth.isAuthenticated &&
-            auth.loading === false &&
-            auth.user._id === id && (
-              <Link to="/edit-profile" className="btn btn-dark">
-                Edit Profile
-              </Link>
-            )} */
-}

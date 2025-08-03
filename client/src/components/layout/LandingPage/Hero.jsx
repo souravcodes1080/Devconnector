@@ -7,29 +7,29 @@ function Hero() {
     <>
       <main className="sm:w-[80%] sm:max-w-[1920px] w-[90%] mx-auto h-[100vh] flex items-center justify-between">
         <div className="flex-1">
-          <h1 className="sm:text-7xl text-5xl font-bold text-blue-600 sm:leading-20 leading-15 tracking-tighter sm:text-left text-center">
+          <h1 className="text-5xl font-bold tracking-tighter text-center text-blue-600 sm:text-7xl sm:leading-20 leading-15 sm:text-left">
             Meet, Build & Grow <br /> on Connect
           </h1>
           <p className="text-xl font-light sm:w-[75%] w-full my-5 sm:text-left text-center">
             Create a developer profile/portfolio, share posts and get help from
             other developers.
           </p>
-          <div className="flex items-center  mt-10  sm:justify-start justify-center">
+          <div className="flex items-center justify-center mt-10 sm:justify-start">
             <Link
               to={"/profiles"}
-              className="mr-5 text-base  items-center gap-x-2 transition-all duration-300 hover:bg-blue-600 hover:text-white  cursor-pointer border border-blue-600 sm:px-7 px-4 py-3 rounded-full hidden sm:flex"
+              className="items-center hidden px-4 py-3 mr-5 text-base transition-all duration-300 border border-blue-600 rounded-full cursor-pointer gap-x-2 hover:bg-blue-600 hover:text-white sm:px-7 sm:flex"
             >
               <MdPeopleAlt /> People
             </Link>
             <Link
               to={"/register"}
-              className="bg-blue-500 text-white text-lg font-semibold sm:px-7 px-4 py-3 rounded-full cursor-pointer transition-all duration-300 hover:bg-blue-700"
+              className="px-4 py-3 text-lg font-semibold text-white transition-all duration-300 bg-blue-500 rounded-full cursor-pointer sm:px-7 hover:bg-blue-700"
             >
               Join now
             </Link>
           </div>
         </div>
-        <div className="flex-1  md:flex justify-end  hidden">
+        <div className="justify-end flex-1 hidden md:flex">
           <img
             src="/images/figure2.svg"
             alt="hero-image"

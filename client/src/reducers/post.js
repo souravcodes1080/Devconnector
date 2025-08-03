@@ -1,10 +1,12 @@
 import {
   ADD_COMMENT,
   ADD_POST,
+  CLEAR_PROFILE_POSTS,
   DELETE_POST,
   GET_POST,
   GET_POSTS,
   POST_ERROR,
+  POSTS_LOADING,
   REMOVE_COMMENT,
   UPDATE_LIKES,
 } from "../actions/types";
@@ -14,6 +16,7 @@ const initialState = {
   post: null,
   loading: true,
   error: {},
+  postsLoading: true,
 };
 
 export default function (state = initialState, action) {
@@ -35,7 +38,7 @@ export default function (state = initialState, action) {
     case ADD_POST:
       return {
         ...state,
-        posts: [...state.posts,payload ],
+        posts: [...state.posts, payload],
         loading: false,
       };
     case DELETE_POST:
@@ -50,6 +53,18 @@ export default function (state = initialState, action) {
         error: payload,
         loading: false,
       };
+    case POSTS_LOADING:
+      return {
+        ...state,
+        posts: [],
+        postsLoading: true,
+      };
+    case CLEAR_PROFILE_POSTS:
+      return {
+        ...state,
+        posts: [],
+      };
+
     case UPDATE_LIKES:
       return {
         ...state,
