@@ -151,7 +151,7 @@ function PostItem({
                 <FaRegThumbsUp />
               )}
               <span className="hidden sm:block">
-                {likes.some((like) => like.user === auth.user._id)
+                {likes?.some((like) => like?.user === auth.user?._id)
                   ? "Liked"
                   : "Like"}
               </span>
